@@ -9,8 +9,6 @@ import { type Adapter } from 'next-auth/adapters';
 import DiscordProvider from 'next-auth/providers/discord';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
-
 import { env } from 'pn/env';
 import { db } from 'pn/server/db';
 
@@ -22,11 +20,7 @@ import { db } from 'pn/server/db';
  */
 declare module 'next-auth' {
   interface Session extends DefaultSession {
-    user: DefaultSession['user'] & {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    };
+    user: DefaultSession['user'] & {};
   }
 
   // interface User {
@@ -87,16 +81,6 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
 };
 
