@@ -13,7 +13,6 @@ const Home = () => {
     router.push('/login');
     return;
   }
-
   return (
     <div>
       <h1>Home</h1>
