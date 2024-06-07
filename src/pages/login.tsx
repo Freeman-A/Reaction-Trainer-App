@@ -10,6 +10,8 @@ import {
   SimpleGrid,
   Stack,
   transition,
+  Checkbox,
+  CheckboxGroup,
 } from '@chakra-ui/react';
 import {
   signIn,
@@ -178,6 +180,14 @@ const Login = () => {
                     type="password"
                   ></Input>
                 </FormControl>
+                <Stack
+                  direction="row"
+                  align="center"
+                  justifyContent={'space-between'}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                  <Button type="button">Forgot password</Button>
+                </Stack>
               </Stack>
             </Stack>
           </Stack>
