@@ -12,6 +12,7 @@ import {
   transition,
   Checkbox,
   CheckboxGroup,
+  Link,
 } from '@chakra-ui/react';
 import {
   signIn,
@@ -49,7 +50,7 @@ const Login = () => {
         paddingBottom={24}
         width={'100%'}
         marginInline={'auto'}
-        maxW={'container.md'}
+        maxW={'container.sm'}
         borderStyle={'solid'}
         display={'block'}
         height={'100vh'}
@@ -186,7 +187,21 @@ const Login = () => {
                   justifyContent={'space-between'}
                 >
                   <Checkbox>Remember me</Checkbox>
-                  <Button type="button">Forgot password</Button>
+                  <Link
+                    userSelect={'none'}
+                    color={'blue'}
+                    _hover={{ bg: '#ebedf0', textDecoration: 'underline' }}
+                    _active={{
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
+                    _focus={{
+                      boxShadow:
+                        '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
+                    }}
+                  >
+                    Forgot password
+                  </Link>
                 </Stack>
               </Stack>
             </Stack>
