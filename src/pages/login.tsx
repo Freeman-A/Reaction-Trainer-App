@@ -23,6 +23,7 @@ import {
 import { useState, useEffect } from 'react';
 
 import { Fade, ScaleFade, Slide, SlideFade, Collapse } from '@chakra-ui/react';
+import { sign } from 'crypto';
 
 const Login = () => {
   const [providers, setProviders] = useState<Record<
@@ -32,6 +33,8 @@ const Login = () => {
 
   const session = useSession();
 
+  const [formData, setFormData] = useState({ email: '', password: '' });
+
   useEffect(() => {
     const fetchProviders = async () => {
       const res = await getProviders();
@@ -40,6 +43,16 @@ const Login = () => {
 
     fetchProviders();
   }, []);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const signInWithCredentials = async () => {};
 
   if (session.status === 'unauthenticated') {
     return (
@@ -136,6 +149,8 @@ const Login = () => {
                     placeholder="Enter your email"
                     name="email"
                     type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     _hover={{ borderColor: 'gray.400' }}
                   ></Input>
                 </FormControl>
@@ -180,6 +195,8 @@ const Login = () => {
                     placeholder="********"
                     name="password"
                     type="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     _hover={{ borderColor: 'gray.400' }}
                   ></Input>
                 </FormControl>
@@ -239,9 +256,7 @@ const Login = () => {
                     paddingInlineEnd={'1rem'}
                     minWidth={'2.5rem'}
                     _hover={{ bg: 'blue.600' }}
-                    onClick={() => {
-                      signIn('credentials');
-                    }}
+                    onClick={signInWithCredentials}
                   >
                     Sign In
                   </Button>
