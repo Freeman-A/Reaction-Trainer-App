@@ -136,6 +136,7 @@ const Login = () => {
                     placeholder="Enter your email"
                     name="email"
                     type="email"
+                    _hover={{ borderColor: 'gray.400' }}
                   ></Input>
                 </FormControl>
                 <FormControl
@@ -179,6 +180,7 @@ const Login = () => {
                     placeholder="********"
                     name="password"
                     type="password"
+                    _hover={{ borderColor: 'gray.400' }}
                   ></Input>
                 </FormControl>
                 <Stack
@@ -186,11 +188,19 @@ const Login = () => {
                   align="center"
                   justifyContent={'space-between'}
                 >
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox
+                    _hover={{ textDecoration: 'underline' }}
+                    _active={{
+                      transform: 'scale(0.98)',
+                      borderColor: '#bec3c9',
+                    }}
+                  >
+                    Remember me
+                  </Checkbox>
                   <Link
                     userSelect={'none'}
                     color={'blue'}
-                    _hover={{ bg: '#ebedf0', textDecoration: 'underline' }}
+                    _hover={{ textDecoration: 'underline' }}
                     _active={{
                       transform: 'scale(0.98)',
                       borderColor: '#bec3c9',
@@ -203,6 +213,109 @@ const Login = () => {
                     Forgot password
                   </Link>
                 </Stack>
+                <Stack
+                  gap={4}
+                  flex-direction={'column'}
+                  display={'flex'}
+                  justify={'center'}
+                  align={'center'}
+                >
+                  <Button
+                    display={'inline-flex'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    verticalAlign={'middle'}
+                    position={'relative'}
+                    width={'50%'}
+                    bgColor={'#3182ce'}
+                    color={'white'}
+                    borderWidth={'1px'}
+                    whiteSpace={'nowrap'}
+                    fontSize={'sm'}
+                    outlineOffset={'2px'}
+                    lineHeight={'1.25rem'}
+                    overflow={'visible'}
+                    paddingInlineStart={'1rem'}
+                    paddingInlineEnd={'1rem'}
+                    minWidth={'2.5rem'}
+                    _hover={{ bg: 'blue.600' }}
+                    onClick={() => {
+                      signIn('credentials');
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    display={'inline-flex'}
+                    position={'relative'}
+                    justifyContent={'center'}
+                    verticalAlign={'middle'}
+                    alignItems={'center'}
+                    width={'50%'}
+                    overflow={'visible'}
+                    paddingInlineStart={'1rem'}
+                    paddingInlineEnd={'1rem'}
+                    borderWidth={'1px'}
+                    borderColor={'gray.400'}
+                    whiteSpace={'nowrap'}
+                    outlineOffset={'2px'}
+                    lineHeight={'1.25rem'}
+                    fontSize={'sm'}
+                    minWidth={'2.5rem'}
+                    _hover={{ bg: 'gray.200' }}
+                    onClick={() => {
+                      signIn('google');
+                    }}
+                  >
+                    Sign in with Google
+                  </Button>
+                  <Button
+                    justifyContent={'center'}
+                    display={'inline-flex'}
+                    verticalAlign={'middle'}
+                    outline={'transparent solid 2px'}
+                    position={'relative'}
+                    alignItems={'center'}
+                    overflow={'visible'}
+                    width={'50%'}
+                    borderWidth={'1px'}
+                    outlineOffset={'2px'}
+                    lineHeight={'1.25rem'}
+                    whiteSpace={'nowrap'}
+                    paddingInlineStart={'1rem'}
+                    paddingInlineEnd={'1rem'}
+                    minWidth={'2.5rem'}
+                    borderColor={'gray.400'}
+                    fontSize={'sm'}
+                    _hover={{ bg: 'gray.200' }}
+                    onClick={() => {
+                      signIn('discord');
+                    }}
+                  >
+                    Sign in with Discord
+                  </Button>
+                </Stack>
+                <Text
+                  fontSize={'md'}
+                  lineHeight={'1.25rem'}
+                  color={'#4A5568'}
+                  marginBlockEnd={'1em'}
+                  margin={'0px'}
+                >
+                  Don't have an account?
+                  {
+                    <Link
+                      href="/register"
+                      color={'blue'}
+                      position={'relative'}
+                      outline={'transparent solid 2px;'}
+                      outlineOffset={'2px'}
+                      margin={'2px'}
+                    >
+                      Sign up
+                    </Link>
+                  }
+                </Text>
               </Stack>
             </Stack>
           </Stack>
