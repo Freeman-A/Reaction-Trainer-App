@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Container,
   FormControl,
@@ -7,42 +6,22 @@ import {
   Heading,
   Input,
   Text,
-  SimpleGrid,
   Stack,
-  transition,
   Checkbox,
-  CheckboxGroup,
   Link,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from '@chakra-ui/react';
-import {
-  signIn,
-  getProviders,
-  ClientSafeProvider,
-  useSession,
-} from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
-import { Fade, ScaleFade, Slide, SlideFade, Collapse } from '@chakra-ui/react';
-import { sign } from 'crypto';
-
 const Login = () => {
-  const [providers, setProviders] = useState<Record<
-    string,
-    ClientSafeProvider
-  > | null>(null);
-
   const session = useSession();
 
   const [formData, setFormData] = useState({ email: '', password: '' });
-
-  useEffect(() => {
-    const fetchProviders = async () => {
-      const res = await getProviders();
-      setProviders(res);
-    };
-
-    fetchProviders();
-  }, []);
+  const [alert, setAlert] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -52,7 +31,14 @@ const Login = () => {
     }));
   };
 
-  const signInWithCredentials = async () => {};
+  const signInWithCredentials = async () => {
+    if (!formData.email || !formData.password) {
+      setAlert(true);
+      return;
+    }
+    setAlert(false);
+    console.log(formData.email, formData.password);
+  };
 
   if (session.status === 'unauthenticated') {
     return (
@@ -100,6 +86,15 @@ const Login = () => {
                 Your journey starts here
               </Text>
             </Stack>
+            {alert && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle>Invalid Credentials</AlertTitle>
+                <AlertDescription>
+                  Please check your email and password and try again.
+                </AlertDescription>
+              </Alert>
+            )}
             <Stack display={'flex'} direction={'column'}>
               <Stack
                 display={'flex'}
