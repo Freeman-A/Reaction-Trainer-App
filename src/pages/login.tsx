@@ -36,8 +36,11 @@ const Login = () => {
       setAlert(true);
       return;
     }
-    setAlert(false);
-    console.log(formData.email, formData.password);
+    await signIn('credentials', {
+      email: formData.email,
+      password: formData.password,
+      callbackUrl: '/',
+    });
   };
 
   if (session.status === 'unauthenticated') {
@@ -274,7 +277,7 @@ const Login = () => {
                     minWidth={'2.5rem'}
                     _hover={{ bg: 'gray.200' }}
                     onClick={() => {
-                      signIn('google');
+                      signIn('google', { callbackUrl: '/' });
                     }}
                   >
                     Sign in with Google
@@ -299,7 +302,7 @@ const Login = () => {
                     fontSize={'sm'}
                     _hover={{ bg: 'gray.200' }}
                     onClick={() => {
-                      signIn('discord');
+                      signIn('discord', { callbackUrl: '/' });
                     }}
                   >
                     Sign in with Discord

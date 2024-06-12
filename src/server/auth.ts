@@ -11,7 +11,14 @@ import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { env } from 'pn/env';
 import { db } from 'pn/server/db';
-import Email from 'next-auth/providers/email';
+
+import bcrypt from 'bcrypt';
+import { z } from 'zod';
+
+const loginUserSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -60,13 +67,10 @@ export const authOptions: NextAuthOptions = {
     }),
 
     CredentialsProvider({
-      name: 'Credentials',
-
       credentials: {
         email: {
           label: 'Email',
           type: 'text',
-          placeholder: 'jsmith@exampledomain.com',
         },
         password: { label: 'Password', type: 'password' },
       },
