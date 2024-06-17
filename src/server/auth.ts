@@ -75,7 +75,30 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        return null;
+        const result = loginUserSchema.safeParse(credentials);
+
+        if (!result.success) {
+          return null;
+        }
+
+        const { email, password } = result.data;
+
+        const user = await db.user.findUnique({ where: { email } });
+
+        if (!user) {
+          return null;
+        }
+
+        const passwordMatch = await bcrypt.compare(
+          password,
+          user.password as string
+        );
+
+        if (!passwordMatch) {
+          return null;
+        }
+
+        return { id: user.id, email: user.email };
       },
     }),
   ],

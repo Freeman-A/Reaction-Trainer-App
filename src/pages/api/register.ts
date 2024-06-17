@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
-import { db } from '../db';
-
+import { db } from 'pn/server/db';
 import bcrypt from 'bcrypt';
 
 const registerUserSchema = z.object({
   email: z.string().email(),
   username: z.string().min(3),
-  dob: z.date(),
+  dob: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: 'Invalid date format',
+  }),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters long')
@@ -39,7 +40,7 @@ export default async function registerUser(
       data: {
         email,
         username,
-        dob,
+        dob: new Date(dob), // Convert string to date object
         password: hashedPassword,
       },
     });

@@ -86,7 +86,7 @@ const Login = () => {
                 textAlign={'center'}
                 lineHeight={'1.5'}
               >
-                Your journey starts here
+                Your journey continues here
               </Text>
             </Stack>
             {alert && (
@@ -110,40 +110,8 @@ const Login = () => {
                   position={'relative'}
                   display={'block'}
                 >
-                  <FormLabel
-                    display={'block'}
-                    textAlign={'start'}
-                    fontSize={'1sm'}
-                    marginInlineEnd={3}
-                    marginBottom={'0.375rem'}
-                    fontWeight={'medium'}
-                    opacity={1}
-                    color={'#2D3748'}
-                  >
-                    Email
-                  </FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <Input
-                    width={'100%'}
-                    height={10}
-                    fontSize={'md'}
-                    paddingInlineStart={'0.75rem'}
-                    paddingInlineEnd={'0.75rem'}
-                    borderRadius={'0.5rem'}
-                    min-width={'0px'}
-                    outline={'transparent solid 2px'}
-                    outlineOffset={'2px'}
-                    position={'relative'}
-                    appearance={'none'}
-                    borderWidth={'1px'}
-                    borderStyle={'solid'}
-                    borderColor={'#CBD5E0'}
-                    background={'white'}
-                    padding={'10px'}
-                    lineHeight={'inherit'}
-                    color={'inherit'}
-                    overflow={'visible'}
-                    marginX={'0px'}
-                    paddingBlock={'1px'}
                     placeholder="Enter your email"
                     name="email"
                     type="email"
@@ -157,39 +125,8 @@ const Login = () => {
                   position={'relative'}
                   display={'block'}
                 >
-                  <FormLabel
-                    display={'block'}
-                    textAlign={'start'}
-                    fontSize={'1sm'}
-                    marginInlineEnd={3}
-                    fontWeight={'medium'}
-                    opacity={1}
-                    color={'#2D3748'}
-                  >
-                    Password
-                  </FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <Input
-                    width={'100%'}
-                    height={10}
-                    fontSize={'md'}
-                    paddingInlineStart={'0.75rem'}
-                    paddingInlineEnd={'0.75rem'}
-                    borderRadius={'0.5rem'}
-                    min-width={'0px'}
-                    outline={'transparent solid 2px'}
-                    outlineOffset={'2px'}
-                    position={'relative'}
-                    appearance={'none'}
-                    borderWidth={'1px'}
-                    borderStyle={'solid'}
-                    borderColor={'#CBD5E0'}
-                    background={'white'}
-                    padding={'10px'}
-                    lineHeight={'inherit'}
-                    color={'inherit'}
-                    overflow={'visible'}
-                    marginX={'0px'}
-                    paddingBlock={'1px'}
                     placeholder="********"
                     name="password"
                     type="password"
