@@ -18,10 +18,15 @@ import { signIn, useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
 const Login = () => {
-  const session = useSession();
-
+  const { data: session, status } = useSession();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [alert, setAlert] = useState(false);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      // Redirect to home or fetch user-specific data
+    }
+  }, [status]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -43,7 +48,11 @@ const Login = () => {
     });
   };
 
-  if (session.status === 'unauthenticated') {
+  if (status === 'loading') {
+    return <Text>Loading...</Text>;
+  }
+
+  if (status === 'unauthenticated') {
     return (
       <Container
         paddingStart={8}
@@ -273,6 +282,8 @@ const Login = () => {
       </Container>
     );
   }
+
+  return null;
 };
 
 export default Login;

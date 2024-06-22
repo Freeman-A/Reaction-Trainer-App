@@ -54,7 +54,16 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
+    jwt({ token, account, user }) {
+      if (account) {
+        token.accessToken = account.accessToken;
+
+        token.id = user.id;
+      }
+      return token;
+    },
   },
+  secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     DiscordProvider({
@@ -69,36 +78,14 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       credentials: {
         email: {
-          label: 'Email',
-          type: 'text',
+          label: 'email',
+          type: 'email',
         },
-        password: { label: 'Password', type: 'password' },
+        password: { label: 'password', type: 'password' },
       },
+
       async authorize(credentials, req) {
-        const result = loginUserSchema.safeParse(credentials);
-
-        if (!result.success) {
-          return null;
-        }
-
-        const { email, password } = result.data;
-
-        const user = await db.user.findUnique({ where: { email } });
-
-        if (!user) {
-          return null;
-        }
-
-        const passwordMatch = await bcrypt.compare(
-          password,
-          user.password as string
-        );
-
-        if (!passwordMatch) {
-          return null;
-        }
-
-        return { id: user.id, email: user.email };
+        return null;
       },
     }),
   ],

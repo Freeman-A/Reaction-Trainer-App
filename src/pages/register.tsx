@@ -9,36 +9,39 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { api } from '../utils/api';
 
 const Register = () => {
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [formData, setFormData] = useState({
+    email: '',
+    username: '',
+    dob: '',
+    password: '',
+  });
+
+  const register = api.register.useMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    try {
+      const data = await register.mutateAsync(formData);
 
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: formData.get('email'),
-        username: formData.get('username'),
-        dob: formData.get('dob'),
-        password: formData.get('password'),
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!data.user) return console.error(data.error);
-
-    signIn('credentials', {
-      email: data.user.email,
-      password: data.user.password,
-      callbackUrl: '/login',
-    });
-  }
+      if (data) {
+        await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          callbackUrl: '/',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Container
@@ -81,6 +84,7 @@ const Register = () => {
                 name="username"
                 placeholder="username1"
                 id="username"
+                onChange={handleChange}
               ></Input>
 
               <FormLabel marginTop={4}> Email</FormLabel>
@@ -89,6 +93,7 @@ const Register = () => {
                 name="email"
                 id="email"
                 placeholder="examplemail@gmail.com"
+                onChange={handleChange}
               ></Input>
 
               <FormLabel marginTop={4}> Date of Birth</FormLabel>
@@ -97,6 +102,7 @@ const Register = () => {
                 name="dob"
                 placeholder="dd-mm-yyyy"
                 id="dob"
+                onChange={handleChange}
               ></Input>
 
               <FormLabel marginTop={4}> Password</FormLabel>
@@ -105,6 +111,7 @@ const Register = () => {
                 name="password"
                 id="password"
                 placeholder="********"
+                onChange={handleChange}
               ></Input>
             </FormControl>
             <Stack
