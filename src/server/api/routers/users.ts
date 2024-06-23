@@ -49,28 +49,4 @@ export const usersRouter = createTRPCRouter({
 
       return newUser;
     }),
-
-  login: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const { email, password } = input;
-
-      const user = await db.user.findUnique({
-        where: { email },
-      });
-
-      if (!user) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'User not found',
-        });
-      }
-
-      const passwordMatch = await bcrypt.compare(password, user.password);
-    }),
 });

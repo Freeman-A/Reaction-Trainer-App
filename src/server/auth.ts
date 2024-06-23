@@ -13,12 +13,6 @@ import { env } from 'pn/env';
 import { db } from 'pn/server/db';
 
 import bcrypt from 'bcrypt';
-import { z } from 'zod';
-
-const loginUserSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -43,17 +37,10 @@ declare module 'next-auth' {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  pages: {
-    signIn: '/login',
-  },
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      return session;
+    },
     jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.accessToken;
@@ -65,6 +52,10 @@ export const authOptions: NextAuthOptions = {
   },
   secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db) as Adapter,
+  session: { strategy: 'jwt' },
+  pages: {
+    signIn: '/login',
+  },
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
@@ -85,7 +76,26 @@ export const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials, req) {
-        return null;
+        if (!credentials) throw new Error('No credentials provided');
+
+        const user = await db.user.findUnique({
+          where: { email: credentials.email },
+        });
+
+        if (!user) {
+          throw new Error('No user found');
+        }
+
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isValid) {
+          throw new Error('Invalid password');
+        }
+
+        return user;
       },
     }),
   ],
